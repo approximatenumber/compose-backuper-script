@@ -87,7 +87,7 @@ def backup_volume(service_name, volume_id, output_path):
     docker_cli = docker.from_env()
     logger.info("Saving {}[{}]...".format(service_name, volume_id))
     docker_cli.containers.run(docker_image,
-                              command=service_name,
+                              command='{}_{}'.format(service_name, volume_id),
                               volumes={volume_id: {'bind': docker_src_mount,
                                                    'mode': 'ro'},
                                        output_path: {'bind': docker_dst_mount,
