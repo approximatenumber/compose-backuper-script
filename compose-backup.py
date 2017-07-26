@@ -12,9 +12,8 @@ runner_name = "compose-backuper"
 docker_src_mount = '/mnt/src'
 docker_dst_mount = '/mnt/dst'
 
+
 def create_logger():
-    
-    FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger('compose-backup')
     logger.setLevel(logging.INFO)
@@ -72,6 +71,7 @@ def get_volumes(compose_content):
 
 
 def backup_volume(volume_id, destination):
+
     try:
         docker_cli = docker.from_env()
         logger.info("{}: saving...".format(volume_id))
@@ -85,6 +85,7 @@ def backup_volume(volume_id, destination):
                                   name=runner_name
                                   )
         logger.info("{}: saved".format(volume_id))
+
     except KeyboardInterrupt:
         logger.info('gracefully removing container {}...'.format(runner_name))
         runner = docker_cli.containers.get(runner_name)
