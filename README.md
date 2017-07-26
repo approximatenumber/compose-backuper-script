@@ -2,7 +2,7 @@
 
 Script to backup named volumes of your services from docker-compose.yml
 
-It parses `docker-compose.yml`, finds named volume, runs little container with this volumes mounted there and saves it.
+It parses `docker-compose.yml`, finds named volume, runs little container with these volumes mounted there and saves it.
 
 ### Prepare
 
