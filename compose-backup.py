@@ -34,13 +34,13 @@ def get_volume_parameters(context):
     if context.find(':'):
         if len(context.split(':')) == 3:
             volume, docker_mntpoint, mode = context.split(':')
-        else 
+        elif len(context.split(':')) == 2:
             volume, docker_mntpoint = context.split(':')
             mode = ""
     else:
         volume = context
         docker_mntpoint, mode = "", ""
-        
+
     return volume, docker_mntpoint, mode
 
 
@@ -87,6 +87,7 @@ def get_volumes_from_compose(compose_file):
         for context in volume_contexts:
 
             volume, docker_mntpoint, mode = get_volume_parameters(context)
+            logger.info(volume, docker_mntpoint, mode)
 
             if volume_is_named(volume):
                 volume_info.append({'volume_id': volume,
