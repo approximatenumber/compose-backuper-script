@@ -1,5 +1,8 @@
 # compose-backuper-script
+
 Script to backup named volumes of your services from docker-compose.yml
+
+It parses `docker-compose.yml`, finds named volume, runs little container with this volumes mounted there and saves it.
 
 ### Prepare
 
@@ -13,15 +16,25 @@ Pull the image for backup
 
 ### Usage
 
-You need to give it:
+Needed arguments:
 
 - `docker-compose.yml` (by default, script searches it in the current directory)
 - project name (by default, script takes current directory name)
 - destination directory to store backups.
 
-`python compose-backup.py -f /opt/app/docker-compose.yml -p myproj /mnt/disk/backups`
+```
+usage: compose-backup.py [-h] [-f COMPOSE_FILE] [-p PROJECT_NAME]
+                         [-d DESTINATION]
 
-Then it will automatically find your named volumes and save it.
+optional arguments:
+  -h, --help            show this help message and exit
+  -f COMPOSE_FILE, --compose-file COMPOSE_FILE
+                        path to docker-compose.yml
+  -p PROJECT_NAME, --project-name PROJECT_NAME
+                        project name
+  -d DESTINATION, --destination DESTINATION
+                        destination directory for backups
+```
 
 Example:
 
