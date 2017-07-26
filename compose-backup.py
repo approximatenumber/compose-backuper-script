@@ -13,11 +13,11 @@ docker_src_mount = '/mnt/src'
 docker_dst_mount = '/mnt/dst'
 
 def create_logger():
+    
+    FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger('compose-backup')
     logger.setLevel(logging.INFO)
-    FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
-    logging.basicConfig(format=FORMAT)
     return logger
 
 
@@ -72,19 +72,26 @@ def get_volumes(compose_content):
 
 
 def backup_volume(volume_id, destination):
-
-    docker_cli = docker.from_env()
-    logger.info("{}: saving...".format(volume_id))
-    docker_cli.containers.run(runner_image,
-                              command='{}'.format(volume_id),
-                              volumes={volume_id: {'bind': docker_src_mount,
-                                                   'mode': 'ro'},
-                                       destination: {'bind': docker_dst_mount,
-                                                     'mode': 'rw'}},
-                              remove=True,
-                              name=runner_name
-                              )
-    logger.info("{}: saved".format(volume_id))
+    try:
+        docker_cli = docker.from_env()
+        logger.info("{}: saving...".format(volume_id))
+        docker_cli.containers.run(runner_image,
+                                  command='{}'.format(volume_id),
+                                  volumes={volume_id: {'bind': docker_src_mount,
+                                                       'mode': 'ro'},
+                                           destination: {'bind': docker_dst_mount,
+                                                         'mode': 'rw'}},
+                                  remove=True,
+                                  name=runner_name
+                                  )
+        logger.info("{}: saved".format(volume_id))
+    except KeyboardInterrupt:
+        logger.info('gracefully removing container {}...'.format(runner_name))
+        runner = docker_cli.containers.get(runner_name)
+        runner.stop()
+        runner.remove()
+        logger.info('container {} removed'.format(runner_name))
+        sys.exit(1)
 
 
 if __name__ == '__main__':
