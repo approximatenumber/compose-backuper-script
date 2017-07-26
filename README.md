@@ -6,11 +6,11 @@ It parses `docker-compose.yml`, finds named volume, runs little container with t
 
 ### Prepare
 
-Install needed python modules:
+1. Install needed python modules:
 
 `pip3 install -r requirements.txt`
 
-Pull the image for backup
+2. Pull the image for backup
 
 `docker pull approximatenumber/compose-backuper`
 
