@@ -47,5 +47,5 @@ INFO:compose-backup:DONE! Volumes saved: 1
 
 $ ls /opt/backups
 
-myproj_jenkins-data.tar.gz
+myproj_jenkins-home.tar.gz
 ```
