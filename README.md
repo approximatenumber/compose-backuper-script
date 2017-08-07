@@ -8,9 +8,16 @@ Little container is [approximatenumber/compose-backuper](https://hub.docker.com/
 
 ### Prepare
 
-1. Install needed python modules:
+1. Install needed python modules with `virtualenv`:
 
-`pip3 install -r requirements.txt`
+
+```bash
+virtualenv compose-backuper
+source compose-backuper/bin/activate
+pip install -r requirements.txt
+```
+
+(When you finish the backup, run `deactivate` to deactivate virtual environment)
 
 2. Pull the image for backup
 
@@ -41,13 +48,15 @@ optional arguments:
 Example:
 
 ```bash
-$ python3 compose-backup.py -f ../opt/app/docker-compose.yml -p myproj -d /opt/backups/
+python compose-backup.py -f ../opt/app/docker-compose.yml -p myproj -d /opt/backups/
 
 INFO:compose-backup:jenkins-home: saving...
 INFO:compose-backup:jenkins-home: saved
 INFO:compose-backup:DONE! Volumes saved: 1
+```
 
-$ ls /opt/backups
+```bash
+ls /opt/backups
 
 myproj_jenkins-home.tar.gz
 ```
